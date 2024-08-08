@@ -32,6 +32,7 @@ public class AplicacionListener implements ServletContextListener,
     public void requestInitialized(ServletRequestEvent sre) {
         servletContext.log("Inicializando el Request!");
         sre.getServletRequest().setAttribute("mensaje","Guardando algún para el Request");
+        sre.getServletRequest().setAttribute("title","Catálogo Servlet");   /*title por defecto - header.jsp*/
     }
 
     @Override

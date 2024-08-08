@@ -41,6 +41,7 @@ public class ProductoFormServlet extends HttpServlet {
         }
         req.setAttribute("categorias", service.listarCategoria());  /*Obtener las categorías y asignarlas como atributos del request*/
         req.setAttribute("producto", producto); /*Pasar el producto y asignarlo como atributo del request */
+        req.setAttribute("title", req.getAttribute("title") + ": Formulario de Productos");
         getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);   /*Pasar las categorías a form.jsp*/
     }
 
@@ -117,6 +118,7 @@ public class ProductoFormServlet extends HttpServlet {
             req.setAttribute("errores", errores);
             req.setAttribute("categorias", service.listarCategoria());  /*Obtener las categorías y asignarlas como atributos del request*/
             req.setAttribute("producto", producto); /*Pasar el producto con Errores y asignarlo como atributo del request */
+            req.setAttribute("title", req.getAttribute("title") + ": Formulario de Productos");
             getServletContext().getRequestDispatcher("/form.jsp").forward(req, resp);   /*Redireccionar categorías y producto con Errores a form.jsp*/
         }
     }
