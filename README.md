@@ -1,21 +1,63 @@
-<h1 align="center">Layout</h1>
-<p>En el contexto de las JavaServer Pages (JSP), el término "layout" se refiere al diseño o estructura general de una página web o aplicación web. El layout determina cómo se organizan y muestran los elementos en una página, y se utiliza para crear una apariencia consistente y coherente a lo largo de las páginas de la aplicación.</p>
-<h3>Plantillas y Fragments</h3>
+<h1 align="center">Tabla SQL usuarios</h1>
 
-- <b>Plantillas</b>: En JSP, se pueden crear plantillas para definir el layout común de la aplicación. Las plantillas contienen la estructura HTML básica y los elementos compartidos por múltiples páginas, como cabeceras, menús de navegación, barras laterales y pies de página.
-- <b>Fragments</b>: Las partes reutilizables de una página web, conocidas como fragments, pueden ser incluidas en diferentes páginas JSP utilizando la directiva `<%@ include %>` o el tag `<jsp:include>`. Esto permite mantener un layout consistente sin duplicar el código.
+- Tabla "usuarios"
+```sql
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(12) NOT NULL,
+    password VARCHAR(60) NOT NULL,
+    email VARCHAR(45) NOT NULL
+);
+```
+- Contenido de la tabla "usuarios"
+```sql
+INSERT INTO usuarios (username, password, email) VALUES
+('admin', '12345', 'admin@correo.com'),
+('andres', '12345', 'andres@correo.com');
+```
 
-<h3>Uso de Archivos CSS</h3>
-<p>El layout de una página JSP también puede ser controlado usando hojas de estilo en cascada (CSS). CSS permite definir el diseño visual, como colores, fuentes, márgenes, alineación, y posicionamiento de los elementos en la página.</p>
-<h3>MVC y Layouts</h3>
-<p>En un diseño de aplicación basado en el patrón Modelo-Vista-Controlador (MVC), el layout se utiliza principalmente en la capa de vista. Las JSP suelen actuar como la vista, donde se aplica el layout para presentar los datos que provienen del controlador.</p>
-<h3>Librerías de Etiquetas (Tag Libraries)</h3>
+<h1 align="center">Nuevas clases y modificaciones</h1>
 
-- <b>JSTL</b>: La JSP Standard Tag Library (JSTL) es una colección de etiquetas útiles para tareas comunes en JSP, que pueden ayudar a gestionar el layout al manejar la iteración, condiciones, y otros elementos dinámicos.
-- <b>Frameworks como Apache Tiles</b>: Algunos desarrolladores utilizan frameworks como Apache Tiles para gestionar layouts más complejos. Tiles permite definir un layout modular donde las diferentes partes de la página pueden ser ensambladas desde componentes independientes.
+<h2>Clase Usuario</h2>
 
-<h3>Beneficios del Uso de Layouts en JSP</h3>
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.models</b>
 
-- <b>Consistencia</b>: Ayuda a mantener un diseño uniforme en todas las páginas de la aplicación.
-- <b>Mantenibilidad</b>: Facilita el mantenimiento del código, ya que los cambios en el diseño pueden ser realizados en un solo lugar (en la plantilla o fragmento común) y se reflejan automáticamente en todas las páginas que usan ese layout.
-- <b>Reutilización</b>: Fomenta la reutilización de código y evita la duplicación de elementos comunes.
+- <b>Objetivo</b>: Representar a un usuario en el sistema con sus atributos básicos.
+- <b>Función</b>: Modela un objeto Usuario con propiedades como id, username, password, y email. Proporciona métodos para acceder y modificar estos atributos.
+
+<h2>Interfaz UsuarioRepository</h2>
+
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.repositories</b>
+
+- <b>Objetivo</b>: Definir las operaciones básicas para manipular los datos de los usuarios en la base de datos.
+- <b>Función</b>: Extiende una interfaz genérica Repository y declara métodos específicos para Usuario, como porUsername, que busca un usuario por su nombre de usuario.
+
+<h2>Clase UsuarioRepositoryImpl</h2>
+
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.repositories</b>
+
+- <b>Objetivo</b>: Implementar la interfaz UsuarioRepository y realizar operaciones de base de datos relacionadas con los usuarios.
+- <b>Función</b>: Utiliza una conexión SQL (Connection) para ejecutar consultas y comandos SQL. Implementa métodos como porUsername para buscar usuarios en la base de datos, y otros métodos CRUD (crear, leer, actualizar, eliminar) que aún no están implementados completamente.
+
+<h2>Interfaz UsuarioService</h2>
+
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.services</b>
+
+- <b>Objetivo</b>: Definir las operaciones de negocio relacionadas con los usuarios.
+- <b>Función</b>: Proporciona el método login para autenticar usuarios basado en el nombre de usuario y contraseña.
+
+<h2>Clase UsuarioServiceImpl</h2>
+
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.services</b>
+
+- <b>Objetivo</b>: Implementar la interfaz UsuarioService y gestionar la lógica de negocio para la autenticación de usuarios.
+- <b>Función</b>: Se comunica con UsuarioRepository para verificar las credenciales del usuario. Utiliza el método login para validar el nombre de usuario y la contraseña, devolviendo un objeto Optional<Usuario> si las credenciales son correctas.
+
+<h2>Clase LoginServlet</h2>
+
+Paquete: <b>org.CCristian.apiservlet.webapp.headers.controllers</b>
+
+- <b>Objetivo</b>: Gestionar las solicitudes HTTP para el inicio de sesión de usuarios.
+- <b>Función</b>:
+  - <b>Método doGet</b>: Comprueba si el usuario ya ha iniciado sesión y muestra un mensaje de bienvenida o redirige al formulario de inicio de sesión.
+  - <b>Método doPost</b>: Recibe los datos de inicio de sesión desde el formulario, utiliza UsuarioService para autenticar al usuario, y gestiona la sesión del usuario en el servidor. Si la autenticación es exitosa, inicia una sesión y redirige al usuario a la página de bienvenida; de lo contrario, muestra un error de autorización.
